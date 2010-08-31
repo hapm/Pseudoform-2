@@ -9,6 +9,7 @@
 #include "Managers/ResourceManager.hpp"
 #include "Managers/EntityManager.hpp"
 #include "Managers/EventManager.hpp"
+#include "Managers/StatisticManager.hpp"
 
 namespace Engine
 {

@@ -10,6 +10,7 @@
 #include "Managers/LogManager.hpp"
 #include "Managers/EventManager.hpp"
 #include "Managers/StateManager.hpp"
+#include "Managers/StatisticManager.hpp"
 
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/format.hpp>
@@ -33,18 +34,13 @@ class GameApplication : public singleton<GameApplication>
         float mFrameRate;
         bool mDrawn;
 
-        bool mStatsVisible;
-        boost::signals2::connection mStatsUpdate;
-
     public:
         GameApplication();
         ~GameApplication();
 
         void setGameState(bool running);
         const float getElapsed() const;
-        const float getFPS() const;
-
-        void showStats();
+        float getFPS();
 
         void _init();
         void Start();
@@ -52,7 +48,6 @@ class GameApplication : public singleton<GameApplication>
         void _shutdown();
 
         // Slots
-        void keyPressed(const OIS::KeyEvent &e);
         void WindowClosing(Ogre::RenderWindow *rw, bool &shouldClose);
 };
 

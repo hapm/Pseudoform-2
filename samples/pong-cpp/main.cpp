@@ -11,6 +11,10 @@ class MenuState : public State
 
             World::findWidget<MyGUI::StaticImage>("ButtonPlay")->eventMouseButtonClick =
                     MyGUI::newDelegate(this, &MenuState::ButtoPlayClicked);
+
+            TRACK_VALUE_FLOAT("fps", &GameApplication::getFPS, &gameApplication);
+            TRACK_VALUE_INT("batches", &Ogre::RenderWindow::getBatchCount, graphicSystem.getWindow());
+            TRACK_VALUE_INT("triangles", &Ogre::RenderWindow::getTriangleCount, graphicSystem.getWindow());
         }
 
         void shutdown() {

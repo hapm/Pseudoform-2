@@ -4,6 +4,7 @@ set(Pseudoform_srcs
     Managers/Entities/Object.cpp
     Managers/Entities/Entity.cpp
     Managers/StateManager.cpp
+    Managers/StatisticManager.cpp
     Managers/EventManager.cpp
     Managers/EntityManager.cpp
     Managers/ResourceManager.cpp

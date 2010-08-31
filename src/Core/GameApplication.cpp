@@ -14,9 +14,6 @@ GameApplication::GameApplication()
 
     this->_init();
 
-    mStatsVisible = false;
-
-    CONNECT(Engine::Events::KeyEvent, "KeyPressed", &GameApplication::keyPressed);
     CONNECT2(Events::ClosingEvent, "WindowClosing", &GameApplication::WindowClosing);
 }
 
@@ -24,7 +21,7 @@ GameApplication::~GameApplication() { }
 
 void GameApplication::setGameState(bool running) { mRunning = running; }
 const float GameApplication::getElapsed() const { return mElapsed; }
-const float GameApplication::getFPS() const { return floor(mFrameRate+0.5); }
+float GameApplication::getFPS() { return floor(mFrameRate+0.5); }
 
 void GameApplication::_init()
 {
@@ -111,46 +108,4 @@ void GameApplication::WindowClosing(Ogre::RenderWindow *rw, bool &shouldClose)
         LOG("Clicked on [X] -> closing");
         mRunning = false;
     }
-}
-
-void GameApplication::keyPressed(const OIS::KeyEvent &e)
-{
-	//if (e.key == OIS::KC_ESCAPE) mRunning = false; //Game wants it
-
-	if (e.key == OIS::KC_I)
-	{
-		if (inputSystem.getKeyboard()->isModifierDown(OIS::Keyboard::Ctrl))
-		{
-			mStatsVisible = !mStatsVisible;
-
-			if (mStatsVisible)
-			{
-				guiSystem.loadLayout("Statistic.layout");
-				mStatsUpdate = CONNECT0(Engine::Events::GlobalUpdateEvent, "Updated", &GameApplication::showStats);
-			}
-			else
-			{
-				if (mStatsUpdate.connected()) mStatsUpdate.disconnect();
-				guiSystem.unloadLayout("Statistic.layout");
-			}
-		}
-	}
-}
-
-void GameApplication::showStats()
-{
-	if (mStatsVisible)
-	{
-		using namespace MyGUI;
-
-		string fps = boost::lexical_cast<string>(getFPS());
-		string batches = boost::lexical_cast<string>(graphicSystem.getWindow()->getBatchCount());
-		string triangles = boost::lexical_cast<string>(graphicSystem.getWindow()->getTriangleCount());
-
-		Gui *handle = guiSystem.handle();
-
-		handle->findWidget<Widget>("fps_statistic")->setCaption("#FFFFFF fps: #ffe1bd" + fps);
-		handle->findWidget<Widget>("batches_statistic")->setCaption("#FFFFFF batches: #ffe1bd" + batches);
-		handle->findWidget<Widget>("triangles_statistic")->setCaption("#FFFFFF triangles: #ffe1bd" + triangles);
-	}
 }
