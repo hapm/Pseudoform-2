@@ -1,4 +1,5 @@
 #include "Managers/StateManager.hpp"
+#include "Managers/EntityManager.hpp"
 
 void StateManager::push(State *state)
 {
@@ -14,6 +15,9 @@ void StateManager::update()
         mActiveState.get()->shutdown();
         LOG_META(FORMAT(" Exiting from '%1%'", mActiveState.get()->type()));
         setAdvanceState(false);
+        LOG_META("Removing all entities from the world");
+        entityManager.DeleteAllEntities();
+
         this->pop();
     }
     else
@@ -26,6 +30,7 @@ StateManager::StateManager(): mAdvanceState(false) { }
 
 StateManager::~StateManager()
 {
+    entityManager.DeleteAllEntities();
     while (!mStates.empty())
     {
         mStates.pop_back();

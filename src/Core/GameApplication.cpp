@@ -25,8 +25,8 @@ float GameApplication::getFPS() { return floor(mFrameRate+0.5); }
 
 void GameApplication::_init()
 {
-	LOG_NOFORMAT("Systems initialization:\n=======================\n\n");
-	utils.writeTimestamp();
+    LOG_NOFORMAT("Systems initialization:\n=======================\n\n");
+    utils.writeTimestamp();
 
     BOOST_FOREACH(ISystem &curSystem, mSystemsList)
     {
@@ -36,8 +36,8 @@ void GameApplication::_init()
     }
 
     LOG_NOFORMAT("Finished in: [" + utils.getTimeDifference() + "]\n\n");
-	LOG_NOFORMAT("Game initialization:\n====================\n\n");
-	utils.writeTimestamp();
+    LOG_NOFORMAT("Game initialization:\n====================\n\n");
+    utils.writeTimestamp();
 }
 
 void GameApplication::Start()
@@ -48,9 +48,17 @@ void GameApplication::Start()
 
     SIGNAL(Engine::Events::GlobalInitEvent, "Inited", );
 
+    if (CONFIG("engine.trackStatistic", bool, "false"))
+    {
+        LOG("Statistic tracking is enabled");
+        //TRACK_VALUE_FLOAT("fps", &GameApplication::getFPS, this);
+        //TRACK_VALUE_INT("batches", &Ogre::RenderWindow::getBatchCount, graphicSystem.getWindow());
+        //TRACK_VALUE_INT("triangles", &Ogre::RenderWindow::getTriangleCount, graphicSystem.getWindow());
+    }
+
     LOG_NOFORMAT("\nFinished in: [" + utils.getTimeDifference() + "]\n");
-	LOG_NOFORMAT("\nGame Loop:\n==========\n\n");
-	utils.writeTimestamp();
+    LOG_NOFORMAT("\nGame Loop:\n==========\n\n");
+    utils.writeTimestamp();
 
     this->_loop();
 }
